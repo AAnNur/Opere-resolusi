@@ -1,0 +1,98 @@
+DDL = CREATE, ALTER, RENAME, DROP
+DML = INSERT, UPDATE, SELECT, DELETE
+DCL = 
+
+select kd_dosen, matkul_ajar FROM dosen;
+
+select * from dosen
+
+select DISTINCT kd_dosen FROM dosen; (mengurutkan dengan gabungan)
+
+ALTER TABLE  nama_tabel  DROP  nama_kolom; (menghapus column)
+
+ALTER TABLE ujian ADD tanggal date not null ; (menambah column pada table)
+
+ALTER TABLE ujian CHANGE Nomer AU varchar(20); (Mengubah nama Column dan tipe data)
+
+RENAME TABLE ujian seriusamat to ujian; (Mengubah Nama Table)
+
+ ALTER TABLE ujian rename mimi; (REname column)
+
+Drop Table nama_table (menghapus)
+
+ALTER TABLE ujian MODIFY AU varchar(40) not null; (mengubah isi tipe deskripsi column)
+
+ALTER TABLE ujian CHANGE id_akun
+id_akun int(11) not null first  (POSITION) (mengubah posisi deskripsi column)
+
+
+CREATE TABLE ujian
+    -> ( Nama char(10) not null unique,
+    -> email varchar(25) not null unique,
+    -> sts enum ('aktif','nonaktif') default 'nonaktif',
+    -> id_akun int(11) not null primary key auto_increment
+    -> );   (cara membuat Rangka table)
+
+INSERT INTO ujian VALUES
+    -> ('Farhan','MAMA$gasd', 'aktif', '12312', now()),
+    -> ('Udin','MAMA$asda', 'nonaktif', '123231', now()),
+    -> ('mamang','MAMA$fgf', 'aktif', '123543', now()); (Memasukkan DATA)
+
+
+INSERT INTO ujian (id_akun, Nama, email) VALUES
+('12312', 'AJENG', 'asdasd$sdf'); (mEMASUKKAN DATA SECARA SPESIFIK)
+
+select Nama from ujian
+select Nama, email, sts FROM ujian; (menampilkan yang diinginkan)
+
+select Nama as wong from ujian; (untuk mengubah nama column yang ingin ditampilkan)
+
+select * from ujian where sts = 'aktif'; (menampilkan dengan sesuai isi column)
+
+UPDATE ujian set tanggal='2022-11-01' where id_akun = '12300'; (mengubah hanya 1 data pada column dengan kondisi)
+
+UPDATE ujian set tanggal='2022-11-02'; (mengubah data tanpa kondisi)
+
+DELETE from ujian where id_akun= '21242'; (Menghapus secara sepesifik)
+
+select * from ujian order by Nama; (Mengurutkan berdasarkan nama)
+select * from ujian order by Nama  DESC; (terbesar ke terkecil)
+select * from ujian order by Nama  ASC; (terkecil ke terbesar)
+select * from ujian where Nama like 'a%' or sts like 'a%'; (Berdasarkan awalan a atau sts a)
+ select * from ujian where Nama like '%a%'; (berdasarkan tengah a)   '_a' 'a_' '%a%' 'F__n'
+
+ALTER TABLE malam add primary key <nama_column>; (membuat sebuag primary key)
+ALTER TABLE nama_table DROP primary key, add primary key (nama_column); (memindahkan primary key)
+ALTER TABLE nama_table DROP primary key; (Menghapus Primary Key)
+
+[fakultas]> create table malam (
+    -> nim char (5) not null primary key,
+    -> nama varchar (50) not null,
+    -> alamat varchar (60) not null,
+    -> id_matkul char (5),
+    -> foreign key (id_matkul) references matkul(id_matkul)); (menambah foreign key pada tablede
+)
+
+ALTER TABLE kursi ADD FOREIGN KEY (nama_column) REFERENCES nama_table(nama_columns=n)
+
+CREATE user 'panitia'@'localhost' identified by '12345'; (membuat user)
+grant select, update on nama_table.nama_column to 'namauser'@'localhost'; (membuat akses data DCL)
+mysql -u nama_user -p(password) (login user )
+ select user, host, password from mysql.user; (menampilkan semua user)
+show grants for 'root'@'localhost'; (menampilkan hak akses pada suatu user)
+revoke (akses yang dihapus) on namatable.namacolumn from 'namauser'@'nama_host'; (menghapus hak akses)
+revoke all on namatable.namacolumn 'namauser'@'nama_host'; (menghapus semua akses)
+drop user 'namauser'@'nama_host'; (menghapus user)
+
+
+CREATE TRIGGER Total_Pembayaran
+    -> after insert on aksesoris for each row
+    -> begin
+    -> update struk set Total_Pembayaran=Total_Pembayaran - new.Pembayaran
+    -> where no_Belanja=new.no_Belanja;
+    -> end//
+(Untuk menambah trigger)
+
+Create view panggilin as select customer.nama, customer.kd_customer from customer where customer.kd_customer=aksesoris.kd customer
+(Unruk Menambah View)
+
